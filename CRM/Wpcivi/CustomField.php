@@ -135,4 +135,19 @@ class CRM_Wpcivi_CustomField {
     }
     return TRUE;
   }
+
+  /**
+   * Method to get all custom fields for a custom group id
+   *
+   * @param int $customGroupId
+   * @return array
+   */
+  public function getAllWithCustomGroupId($customGroupId) {
+    try {
+      $customFields = civicrm_api3('CustomField', 'Get', array('custom_group_id' => $customGroupId));
+      return $customFields['values'];
+    } catch (CiviCRM_API3_Exception $ex) {
+      return array();
+    }
+  }
 }

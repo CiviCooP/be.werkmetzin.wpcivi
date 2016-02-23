@@ -6,9 +6,6 @@
  * @date 15 Feb 2016
  * @license AGPL-3.0
  */
-
-// todo: adapt to situation (use initialize function to update custom fields etc)
-
 class CRM_Wpcivi_Config {
 
   private static $_singleton;

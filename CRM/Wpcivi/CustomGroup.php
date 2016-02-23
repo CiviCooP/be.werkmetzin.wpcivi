@@ -73,6 +73,20 @@ class CRM_Wpcivi_CustomGroup {
   }
 
   /**
+   * Method to get custom group table name with name
+   *
+   * @param string $name
+   * @return array|bool
+   */
+  public function getTableNameWithName($name) {
+    try {
+      return civicrm_api3('CustomGroup', 'Getvalue', array('name' => $name, 'return' => 'table_name'));
+    } catch (CiviCRM_API3_Exception $ex) {
+      return FALSE;
+    }
+  }
+
+  /**
    * Method to build api param list
    *
    * @param array $params
