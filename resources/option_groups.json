@@ -1,0 +1,284 @@
+{
+  "employment_status":{
+    "name":"employment_status",
+    "title":"Ik ben werkende",
+    "is_active":"1",
+    "is_reserved":"0",
+    "option_values":{
+      "labourer":{
+        "name":"labourer",
+        "value":"Arbeider",
+        "label":"Arbeider",
+        "is_active":1
+      },
+      "services":{
+        "name":"services",
+        "value":"Bediende",
+        "label":"Bediende",
+        "is_active":1
+      },
+      "self_employed":{
+        "name":"self_employed",
+        "value":"Zelfstandige",
+        "label":"Zelfstandige",
+        "is_active":1
+      },
+      "other":{
+        "name":"other",
+        "value":"Ander",
+        "label":"Ander",
+        "is_active":1
+      }
+    }
+  },
+  "contact_preference":{
+    "name":"contact_preference",
+    "title":"Voorkeur contact",
+    "is_active":"1",
+    "is_reserved":"0",
+    "option_values":{
+      "daytime":{
+        "name":"daytime",
+        "value":"Overdag",
+        "label":"Overdag",
+        "is_active":1
+      },
+      "after_17":{
+        "name":"after_17",
+        "value":"Avond vanaf 17.00 uur",
+        "label":"Avond vanaf 17.00 uur",
+        "is_active":1
+      },
+      "after_18":{
+        "name":"after_18",
+        "value":"Avond vanaf 18.00 uur",
+        "label":"Avond vanaf 18.00 uur",
+        "is_active":1
+      },
+      "after_19":{
+        "name":"after_19",
+        "value":"Avond vanaf 19.00 uur",
+        "label":"Avond vanaf 19.00 uur",
+        "is_active":1
+      }
+    }
+  },
+  "location_preference":{
+    "name":"location_preference",
+    "title":"Lokatievoorkeu",
+    "is_active":"1",
+    "is_reserved":"0",
+    "option_values": {
+      "affligem": {
+        "name": "affligem",
+        "value": "Affligem",
+        "label": "Affligem",
+        "is_active": 1
+      },
+      "anderlecht": {
+        "name": "anderlecht",
+        "value": "Anderlecht",
+        "label": "Anderlecht",
+        "is_active": 1
+      },
+      "antwerpen": {
+        "name": "antwerpen",
+        "value": "Antwerpen",
+        "label": "Antwerpen",
+        "is_active": 1
+      },
+      "berchem": {
+        "name": "berchem",
+        "value": "Berchem",
+        "label": "Berchem",
+        "is_active": 1
+      },
+      "brasschaat": {
+        "name": "brasschaat",
+        "value": "Brasschaat/Kapellen",
+        "label": "Brasschaat/Kapellen",
+        "is_active": 1
+      },
+      "bree": {
+        "name": "bree",
+        "value": "Bree",
+        "label": "Bree",
+        "is_active": 1
+      },
+      "brugge": {
+        "name": "brugge",
+        "value": "Brugge",
+        "label": "Brugge",
+        "is_active": 1
+      },
+      "brussel": {
+        "name": "brussel",
+        "value": "Brussel",
+        "label": "Brussel",
+        "is_active": 1
+      },
+      "buggenhout": {
+        "name": "buggenhout",
+        "value": "Buggenhout",
+        "label": "Buggenhout",
+        "is_active": 1
+      },
+      "dendermonde": {
+        "name": "dendermonde",
+        "value": "Dendermonde",
+        "label": "Dendermonde",
+        "is_active": 1
+      },
+      "gent": {
+        "name": "gent",
+        "value": "Gent",
+        "label": "Gent",
+        "is_active": 1
+      },
+      "gentbrugge": {
+        "name": "gentbrugge",
+        "value": "Gentbrugge",
+        "label": "Gentbrugge",
+        "is_active": 1
+      },
+      "grimbergen": {
+        "name": "grimbergen",
+        "value": "Grimbergen",
+        "label": "Grimbergen",
+        "is_active": 1
+      },
+      "haacht": {
+        "name": "haacht",
+        "value": "Haacht",
+        "label": "Haacht",
+        "is_active": 0
+      },
+      "hamont": {
+        "name": "hamont",
+        "value": "Hamont-Achel",
+        "label": "Hamont-Achel",
+        "is_active": 0
+      },
+      "heusden": {
+        "name": "heusden",
+        "value": "Heusden-Zolder",
+        "label": "Heusden-Zolder",
+        "is_active": 1
+      },
+      "hoboken": {
+        "name": "hoboken",
+        "value": "Hoboken",
+        "label": "Hoboken",
+        "is_active": 1
+      },
+      "huldenberg": {
+        "name": "huldenberg",
+        "value": "Huldenberg",
+        "label": "Huldenberg",
+        "is_active": 1
+      },
+      "kontich": {
+        "name": "kontich",
+        "value": "Kontich",
+        "label": "Kontich",
+        "is_active": 1
+      },
+      "kortrijk": {
+        "name": "kortrijk",
+        "value": "Kortrijk",
+        "label": "Kortrijk",
+        "is_active": 1
+      },
+      "leuven": {
+        "name": "leuven",
+        "value": "Leuven",
+        "label": "Leuven",
+        "is_active": 1
+      },
+      "lier": {
+        "name": "lier",
+        "value": "Lier-Kessel",
+        "label": "Lier-Kessel",
+        "is_active": 1
+      },
+      "mechelen": {
+        "name": "mechelen",
+        "value": "Mechelen",
+        "label": "Mechelen",
+        "is_active": 1
+      },
+      "online": {
+        "name": "online",
+        "value": "Online",
+        "label": "Online",
+        "is_active": 1
+      },
+      "overpelt": {
+        "name": "overpelt",
+        "value": "Overpelt",
+        "label": "Overpelt",
+        "is_active": 1
+      },
+      "roeselare": {
+        "name": "roeselare",
+        "value": "Roeselare",
+        "label": "Roeselare",
+        "is_active": 1
+      },
+      "schoten": {
+        "name": "schoten",
+        "value": "Schoten",
+        "label": "Schoten",
+        "is_active": 1
+      },
+      "sint_niklaas": {
+        "name": "sint_niklaas",
+        "value": "Sint-Niklaas",
+        "label": "Sint-Niklaas",
+        "is_active": 1
+      },
+      "tienen": {
+        "name": "tienen",
+        "value": "Tienen",
+        "label": "Tienen",
+        "is_active": 1
+      },
+      "turnhout": {
+        "name": "turnhout",
+        "value": "Turnhout",
+        "label": "Turnhout",
+        "is_active": 1
+      },
+      "vilvoorde": {
+        "name": "vilvoorde",
+        "value": "Vilvoorde",
+        "label": "Vilvoorde",
+        "is_active": 0
+      },
+      "wetteren": {
+        "name": "wetteren",
+        "value": "Wetteren",
+        "label": "Wetteren",
+        "is_active": 1
+      },
+      "zoersel": {
+        "name": "zoersel",
+        "value": "Zoersel",
+        "label": "Zoersel",
+        "is_active": 1
+      },
+      "zottegem": {
+        "name": "zottegem",
+        "value": "Zottegem",
+        "label": "Zottegem",
+        "is_active": 1
+      },
+      "zulte": {
+        "name": "zulte",
+        "value": "Zulte",
+        "label": "Zulte",
+        "is_active": 1
+      }
+    }
+  }
+}

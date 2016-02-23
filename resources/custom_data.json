@@ -1,0 +1,187 @@
+{
+  "ind_job_coaching": {
+    "name": "ind_job_coaching",
+    "title": "Formulier Aanmelding Individuele Jobcoaching",
+    "extends": "Activity",
+    "extends_entity_column_value": "form_ind_job_coaching",
+    "style": "Inline",
+    "is_active": 1,
+    "is_reserved": 1,
+    "collapse_display": 0,
+    "table_name": "civicrm_value_ind_job_coaching",
+    "fields": {
+      "location_preference_1st": {
+        "name": "location_preference_1st",
+        "label": "Locatievoorkeur 1e",
+        "option_group": "location_preference",
+        "data_type": "String",
+        "html_type": "Select",
+        "is_searchable": 1,
+        "is_view": 0,
+        "column_name": "location_preference_1st",
+        "weight": -140,
+        "is_active": 1
+      },
+      "location_preference_2nd": {
+        "name": "location_preference_2nd",
+        "label": "Locatievoorkeur 2e",
+        "option_group": "location_preference",
+        "data_type": "String",
+        "html_type": "Select",
+        "is_searchable": 1,
+        "is_view": 0,
+        "column_name": "location_preference_2nd",
+        "weight": -130,
+        "is_active": 1
+      },
+      "location_preference_3rd": {
+        "name": "location_preference_3rd",
+        "label": "Locatievoorkeur 3e",
+        "option_group": "location_preference",
+        "data_type": "String",
+        "html_type": "Select",
+        "is_searchable": 1,
+        "is_view": 0,
+        "column_name": "location_preference_3rd",
+        "weight": -120,
+        "is_active": 1
+      },
+      "contact_preference": {
+        "name": "contact_preference",
+        "label": "Voorkeur contact",
+        "option_group": "contact_preference",
+        "data_type": "String",
+        "html_type": "Select",
+        "is_searchable": 1,
+        "is_view": 0,
+        "column_name": "contact_preference",
+        "weight": -110,
+        "is_active": 1
+      },
+      "preference_days": {
+        "name": "preference_days",
+        "label": "Indien overdag, welke dagen hebben uw voorkeur?",
+        "data_type": "Memo",
+        "html_type": "TextArea",
+        "is_searchable": 0,
+        "is_view": 0,
+        "column_name": "preference_days",
+        "weight": -100,
+        "is_active": 1
+      },
+      "highest_certificate": {
+        "name": "highest_certificate",
+        "label": "Hoogst behaalde diploma",
+        "data_type": "String",
+        "html_type": "Text",
+        "is_searchable": 1,
+        "is_view": 0,
+        "column_name": "highest_certificate",
+        "weight": -90,
+        "is_active": 1
+      },
+      "employment_status": {
+        "name": "employment_status",
+        "label": "Ik ben werkende",
+        "option_group": "employment_status",
+        "data_type": "String",
+        "html_type": "Select",
+        "is_searchable": 1,
+        "is_view": 0,
+        "column_name": "employment_status",
+        "weight": -80,
+        "is_active": 1
+      },
+      "other_employment": {
+        "name": "other_employment",
+        "label": "Indien ander statuut, verklaar",
+        "data_type": "Memo",
+        "html_type": "TextArea",
+        "is_searchable": 0,
+        "is_view": 0,
+        "column_name": "other_employment",
+        "weight": -70,
+        "is_active": 1
+      },
+      "previous_job_coaching": {
+        "name": "previous_job_coaching",
+        "label": "Heb je al gesubsidieeerde loopbaanbegeleiding gevolgd?",
+        "data_type": "Boolean",
+        "html_type": "Radio",
+        "is_searchable": 1,
+        "is_view": 0,
+        "column_name": "previous_job_coaching",
+        "weight": -60,
+        "is_active": 1
+      },
+      "previous_past": {
+        "name": "previous_past",
+        "label": "Indien ja, is het langer dan 6 jaar geleden?",
+        "data_type": "Boolean",
+        "html_type": "Radio",
+        "is_searchable": 1,
+        "is_view": 0,
+        "column_name": "previous_past",
+        "weight": -60,
+        "is_active": 1
+      },
+      "previous_date": {
+        "name": "previous_date",
+        "label": "Indien korter dan 6 jaar geleden, wanneer was dat?",
+        "data_type": "Date",
+        "html_type": "Select Date",
+        "is_searchable": 1,
+        "is_search_range":1,
+        "date_format":"dd/mm/yy",
+        "is_view": 0,
+        "column_name": "previous_past",
+        "weight": -50,
+        "is_active": 1
+      },
+      "found_us_how": {
+        "name": "found_us_how",
+        "label": "Hoe heb je ons leren kennen? Hoe heb je onze website gevonden?",
+        "data_type": "Memo",
+        "html_type": "TextArea",
+        "is_searchable": 0,
+        "is_view": 0,
+        "column_name": "found_us_how",
+        "weight": -40,
+        "is_active": 1
+      },
+      "message": {
+        "name": "message",
+        "label": "Bericht",
+        "data_type": "Memo",
+        "html_type": "TextArea",
+        "is_searchable": 0,
+        "is_view": 0,
+        "column_name": "message",
+        "weight": -30,
+        "is_active": 1
+      },
+      "intro_meeting": {
+        "name": "intro_meeting",
+        "label": "Vraag een kennismakingsgesprek?",
+        "data_type": "Boolean",
+        "html_type": "Radio",
+        "is_searchable": 1,
+        "is_view": 0,
+        "column_name": "intro_meeting",
+        "weight": -20,
+        "is_active": 1
+      },
+      "cheques_order": {
+        "name": "cheques_order",
+        "label": "Heeft cheques reeds besteld?",
+        "data_type": "Boolean",
+        "html_type": "Radio",
+        "is_searchable": 1,
+        "is_view": 0,
+        "column_name": "cheques_order",
+        "weight": -10,
+        "is_active": 1
+      }
+    }
+  }
+}
