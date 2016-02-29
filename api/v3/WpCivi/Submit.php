@@ -24,7 +24,8 @@ function _civicrm_api3_wp_civi_Submit_spec(&$spec) {
 function civicrm_api3_wp_civi_Submit($params) {
   if (array_key_exists('form_type', $params)) {
     $returnValues = array(ts('Data of form type '.$params['form_type']. 'processed'));
-    $handler = CRM_Wpcivi_ApiHandler::getHandler($params['form_type']);
+    $handlerName = CRM_Wpcivi_ApiHandler::getHandler($params['form_type']);
+    $handler = new $handlerName($params);
     $handler->processParams();
     return civicrm_api3_create_success($returnValues, $params, 'WpCivi', 'Submit');
   } else {

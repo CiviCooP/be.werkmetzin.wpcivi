@@ -36,6 +36,7 @@ abstract class CRM_Wpcivi_ApiHandler {
    * @param string $formType
    * @throws Exception if $formType is invalid
    * @throws Exception if class not found
+   * @return string $className
    *
    */
   public static function getHandler($formType) {
@@ -48,7 +49,6 @@ abstract class CRM_Wpcivi_ApiHandler {
       throw new Exception(ts('No handling class for '.$formType.' defined in extension be.werkmetzin.wpcivi.
       Api call can not be processed.'));
     }
-    $handler = new $className();
-    return $handler;
+    return $className;
   }
 }

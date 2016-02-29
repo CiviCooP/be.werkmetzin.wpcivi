@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Abstract Class handling API call
+ * Class to handle API call form CoachingIndividual
  *
  * @author Erik Hommel (CiviCooP) <erik.hommel@civicoop.org>
  * @date 10 Feb 2016
@@ -12,7 +12,6 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
 
   private $_contactParams = array();
   private $_activityParams = array();
-  private $_customDataParams = array();
   private $_contactId = NULL;
   private $_activityType = array();
 
@@ -158,11 +157,13 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
    * @return mixed
    */
   private function constructActivityParams() {
-    $activityParams['activity_type_id'] = $this->_activityType['id'];
+    $activityParams['activity_type_id'] = $this->_activityType['value'];
     $activityParams['subject'] = "Formulier Individuele Loopbaancoaching";
     $activityParams['activity_date_time'] = date('Ymd H:i:s');
     $activityParams['location'] = "Wordpress form";
     $activityParams['is_current_revision'] = 1;
+    $activityParams['source_contact_id'] = 1;
+    $activityParams['target_contact_id'] = $this->_contactId;
     $activityParams['status_id'] = 2; //completed
     return $activityParams;
   }
@@ -203,7 +204,13 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
         return $createdContact;
         break;
       case 1:
-        $foundContact = $contact->getSingleContact($this->_apiParams);
+        $findParams = array(
+          'first_name' => $this->_apiParams['first_name'],
+          'last_name' => $this->_apiParams['last_name'],
+          'birth_date' => $this->_apiParams['birth_date'],
+          'contact_type' => "Individual"
+        );
+        $foundContact = $contact->getSingleContact($findParams);
         $this->_contactId = $foundContact['id'];
         return $foundContact;
         break;
@@ -224,7 +231,7 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
     if (!empty($activityId)) {
       $customData['entity_id'] = $activityId;
       $customGroup = new CRM_Wpcivi_CustomGroup();
-      $customData['table_name'] = $customGroup->getTableNameWithName('in_job_coaching');
+      $customData['table_name'] = $customGroup->getTableNameWithName('ind_job_coaching');
       $customData['query_action'] = "insert";
       $customData['custom_fields'] = $this->constructActivityCustomFields();
     }
@@ -265,9 +272,9 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
    */
   public function processActivity() {
     $activity = new CRM_Wpcivi_Activity();
-    $activity->create($this->_activityParams);
+    $created = $activity->create($this->_activityParams);
     // now add custom data
-    $customData = $this->constructActivityCustomData($activity['id']);
+    $customData = $this->constructActivityCustomData($created['id']);
     if (!empty($customData)) {
       CRM_Wpcivi_Utils::addCustomData($customData);
     }
