@@ -35,9 +35,11 @@ class CRM_Wpcivi_Utils {
    */
   public static function addCustomData($params) {
     $queryData = new CRM_Wpcivi_CustomDataQuery($params);
-    if (isset($queryData['query']) && isset($queryData['params'])) {
+    $query = $queryData->getQuery();
+    $queryParams = $queryData->getQueryParams();
+    if (!empty($query)) {
       try {
-        CRM_Core_DAO::executeQuery($queryData->getQuery(), $queryData->getQueryParams());
+        CRM_Core_DAO::executeQuery($query, $queryParams);
       } catch (Exception $ex) {
         throw new Exception(ts('Unable to add custom data in CRM_Wpcivi_Utils::addCustomData, error message :')
           . $ex->getMessage());

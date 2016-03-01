@@ -246,23 +246,23 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
     $customFields = array();
     // array holding custom field column as key and params key as value
     $possibleCustomFields = array(
-      'location_preference_1st' => 'location_preference_1st',
-      'location_preference_2nd' => 'location_preference_2nd',
-      'location_preference_3rd' => 'location_preference_3rd',
-      'highest_certificate' => 'highest_certificate',
-      'contact_preference' => 'contact_preference',
-      'preference_days' => 'preference_days',
-      'employment_status' => 'employment_status',
-      'other_employment' => 'other_employment',
-      'previous_job_coaching' => 'previous_job_coaching',
-      'previous_past' => 'previous_past',
-      'previous_date' => 'previous_date',
-      'found_us_how' => 'found_us_how',
-      'message' => 'message'
+      'location_preference_1st' => array('name' => 'location_preference_1st', 'type' => 'String'),
+      'location_preference_2nd' => array('name' => 'location_preference_2nd', 'type' => 'String'),
+      'location_preference_3rd' => array('name' => 'location_preference_3rd', 'type' => 'String'),
+      'highest_certificate' => array('name' => 'highest_certificate', 'type' => 'String'),
+      'contact_preference' => array('name' => 'contact_preference', 'type' => 'String'),
+      'preference_days' => array('name' => 'preference_days', 'type' => 'String'),
+      'employment_status' => array('name' => 'employment_status', 'type' => 'String'),
+      'other_employment' => array('name' => 'other_employment', 'type' => 'String'),
+      'previous_job_coaching' => array('name' => 'previous_job_coaching', 'type' => 'Integer'),
+      'previous_past' => array('name' => 'previous_past', 'type' => 'Integer'),
+      'previous_date' => array('name' => 'previous_date', 'type' => 'Date'),
+      'found_us_how' => array('name' => 'found_us_how', 'type' => 'String'),
+      'message' => array('name' => 'remarks', 'type' => 'String')
     );
-    foreach ($possibleCustomFields as $column => $name) {
-      if (isset($this->_apiParams[$name]) && !empty($this->_apiParams[$name])) {
-        $customFields[$column] = $this->_apiParams[$name];
+    foreach ($possibleCustomFields as $column => $possibleParams) {
+      if (isset($this->_apiParams[$possibleParams['name']])) {
+        $customFields[$column] = array('value' => $this->_apiParams[$possibleParams['name']], 'type' => $possibleParams['type']);
       }
     }
     return $customFields;

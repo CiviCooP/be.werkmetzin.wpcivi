@@ -123,12 +123,12 @@ class CRM_Wpcivi_CustomDataQuery {
    * @access private
    */
   private function buildSelectQuery() {
-    $querySelectFIelds = array();
+    $querySelectFields = array();
     $this->_queryParams = array(1 => array($this->_sourceParams['entity_id'], 'Integer'));
     foreach ($this->_sourceParams['custom_fields'] as $column => $value) {
-      $querySelectFIelds[] = $column;
+      $querySelectFields[] = $column;
     }
-    $this->_query = "SELECT ".implode(",", $querySelectFIelds)." FROM ".$this->_sourceParams['table_name']
+    $this->_query = "SELECT ".implode(",", $querySelectFields)." FROM ".$this->_sourceParams['table_name']
       ." WHERE entity_id = %1";
   }
 
@@ -171,7 +171,7 @@ class CRM_Wpcivi_CustomDataQuery {
       throw new Exception(ts('Empty query_action in params, could not build query for custom data in CRM_Wpcivi_CustomDataQuery'));
     }
     $this->_sourceParams['query_action'] = strtolower($this->_sourceParams['query_action']);
-    if (!array_key_exists($this->_sourceParams['query_action'], $this->_validQueryActions)) {
+    if (!in_array($this->_sourceParams['query_action'], $this->_validQueryActions)) {
       throw new Exception(ts('Invalid query_action '.$this->_sourceParams['query_action']
         .' in params, could not build query for custom data in CRM_Wpcivi_CustomDataQuery'));
     }

@@ -6,7 +6,7 @@
     "extends_entity_column_value": "form_ind_job_coaching",
     "style": "Inline",
     "is_active": 1,
-    "is_reserved": 1,
+    "is_reserved": 0,
     "collapse_display": 0,
     "table_name": "civicrm_value_ind_job_coaching",
     "fields": {
@@ -122,7 +122,7 @@
         "is_searchable": 1,
         "is_view": 0,
         "column_name": "previous_past",
-        "weight": -60,
+        "weight": -50,
         "is_active": 1
       },
       "previous_date": {
@@ -134,8 +134,8 @@
         "is_search_range":1,
         "date_format":"dd/mm/yy",
         "is_view": 0,
-        "column_name": "previous_past",
-        "weight": -50,
+        "column_name": "previous_date",
+        "weight": -40,
         "is_active": 1
       },
       "found_us_how": {
@@ -146,7 +146,7 @@
         "is_searchable": 0,
         "is_view": 0,
         "column_name": "found_us_how",
-        "weight": -40,
+        "weight": -30,
         "is_active": 1
       },
       "message": {
@@ -157,7 +157,7 @@
         "is_searchable": 0,
         "is_view": 0,
         "column_name": "message",
-        "weight": -30,
+        "weight": -20,
         "is_active": 1
       },
       "intro_meeting": {
@@ -168,7 +168,7 @@
         "is_searchable": 1,
         "is_view": 0,
         "column_name": "intro_meeting",
-        "weight": -20,
+        "weight": -10,
         "is_active": 1
       },
       "cheques_order": {
@@ -179,7 +179,7 @@
         "is_searchable": 1,
         "is_view": 0,
         "column_name": "cheques_order",
-        "weight": -10,
+        "weight": 0,
         "is_active": 1
       }
     }
