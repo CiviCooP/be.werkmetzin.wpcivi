@@ -98,7 +98,7 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
     if (!empty($addressParams)) {
       $addressParams['contact_id'] = $this->_contactId;
       $addressParams['is_primary'] = 1;
-      $addressParams['location_type_id'] = "Home";
+      $addressParams['location_type'] = "Home";
     }
     return $addressParams;
   }
