@@ -9,7 +9,7 @@
  * @throws API_Exception
  */
 function civicrm_api3_wp_civi_Initialize($params) {
-  new CRM_Wpcivi_Config();
+  new CRM_Wpcivi_ConfigItems();
   $returnValues = array(ts('Updated config items for extension be.werkmetzin.wpcivi'));
   return civicrm_api3_create_success($returnValues, $params, 'WpCivi', 'Initialize');
 }
