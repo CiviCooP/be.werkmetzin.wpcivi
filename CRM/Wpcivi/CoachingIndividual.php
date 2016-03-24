@@ -14,6 +14,8 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
   private $_activityParams = array();
   private $_contactId = NULL;
   private $_activityType = array();
+  private $_yesValues = array();
+  private $_noValues = array();
 
   /**
    * Method to process the params from the api into contact and activity
@@ -38,7 +40,7 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
   private function constructEmailParams() {
     $emailParams = array();
     if (isset($this->_apiParams['email']) && !empty($this->_apiParams['email'])) {
-      $emailParams['location_type'] = "Home";
+      $emailParams['location_type'] = "Thuis";
       $emailParams['email'] = $this->_apiParams['email'];
       $emailParams['is_primary'] = 1;
       $emailParams['contact_id'] = $this->_contactId;
@@ -54,7 +56,7 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
   private function constructMobileParams() {
     $mobileParams = array();
     if (isset($this->_apiParams['mobile']) && !empty($this->_apiParams['mobile'])) {
-      $mobileParams['location_type'] = "Home";
+      $mobileParams['location_type'] = "Thuis";
       $mobileParams['phone_type'] = "Mobile";
       $mobileParams['phone'] = $this->_apiParams['mobile'];
       $mobileParams['is_primary'] = 0;
@@ -71,7 +73,7 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
   private function constructPhoneParams() {
     $phoneParams = array();
     if (isset($this->_apiParams['phone']) && !empty($this->_apiParams['phone'])) {
-      $phoneParams['location_type_id'] = "Home";
+      $phoneParams['location_type_id'] = "Thuis";
       $phoneParams['phone_type'] = "Phone";
       $phoneParams['phone'] = $this->_apiParams['phone'];
       $phoneParams['is_primary'] = 1;
@@ -98,7 +100,7 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
     if (!empty($addressParams)) {
       $addressParams['contact_id'] = $this->_contactId;
       $addressParams['is_primary'] = 1;
-      $addressParams['location_type'] = "Home";
+      $addressParams['location_type_id'] = "Thuis";
     }
     return $addressParams;
   }
@@ -109,6 +111,7 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
     $activityType = new CRM_Wpcivi_ActivityType();
     $this->_activityType = $activityType->getWithNameAndOptionGroupId('form_ind_job_coaching',
       $activityType->getOptionGroupId());
+    $this->_yesValues = array('ja', 'Ja', 'J', 'j');
   }
 
   /**
@@ -243,6 +246,7 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
    * @return array
    */
   private function constructActivityCustomFields() {
+    $radioColumns = array('previous_job_coaching', 'previous_past');
     $customFields = array();
     // array holding custom field column as key and params key as value
     $possibleCustomFields = array(
@@ -261,6 +265,13 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
       'message' => array('name' => 'remarks', 'type' => 'String')
     );
     foreach ($possibleCustomFields as $column => $possibleParams) {
+      if (in_array($column, $radioColumns)) {
+        if (in_array($this->_apiParams[$possibleParams['name']], $this->_yesValues)) {
+          $this->_apiParams[$possibleParams['name']] = 1;
+        } else {
+          $this->_apiParams[$possibleParams['name']] = 0;
+        }
+      }
       if (isset($this->_apiParams[$possibleParams['name']])) {
         $customFields[$column] = array('value' => $this->_apiParams[$possibleParams['name']], 'type' => $possibleParams['type']);
       }
