@@ -40,7 +40,7 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
   private function constructEmailParams() {
     $emailParams = array();
     if (isset($this->_apiParams['email']) && !empty($this->_apiParams['email'])) {
-      $emailParams['location_type'] = "Home";
+      $emailParams['location_type'] = "Thuis";
       $emailParams['email'] = $this->_apiParams['email'];
       $emailParams['is_primary'] = 1;
       $emailParams['contact_id'] = $this->_contactId;
@@ -56,7 +56,7 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
   private function constructMobileParams() {
     $mobileParams = array();
     if (isset($this->_apiParams['mobile']) && !empty($this->_apiParams['mobile'])) {
-      $mobileParams['location_type_id'] = 1;
+      $mobileParams['location_type'] = "Thuis";
       $mobileParams['phone_type'] = "Mobile";
       $mobileParams['phone'] = $this->_apiParams['mobile'];
       $mobileParams['is_primary'] = 0;
@@ -73,7 +73,7 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
   private function constructPhoneParams() {
     $phoneParams = array();
     if (isset($this->_apiParams['phone']) && !empty($this->_apiParams['phone'])) {
-      $phoneParams['location_type_id'] = 1;
+      $phoneParams['location_type_id'] = "Thuis";
       $phoneParams['phone_type'] = "Phone";
       $phoneParams['phone'] = $this->_apiParams['phone'];
       $phoneParams['is_primary'] = 1;
@@ -100,7 +100,7 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
     if (!empty($addressParams)) {
       $addressParams['contact_id'] = $this->_contactId;
       $addressParams['is_primary'] = 1;
-      $addressParams['location_type_id'] = 1;
+      $addressParams['location_type_id'] = "Thuis";
     }
     return $addressParams;
   }
