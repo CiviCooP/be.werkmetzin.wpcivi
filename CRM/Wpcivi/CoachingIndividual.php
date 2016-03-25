@@ -128,9 +128,11 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
       }
     }
     $contactParams['contact_type'] = "Individual";
+    $contactParams['contact_sub_type'] = "Klant";
     $contactParams['gender_id'] = $this->constructGenderId();
     $contactParams['first_name'] = $this->_apiParams['first_name'];
     $contactParams['last_name'] = $this->_apiParams['last_name'];
+    $contactParams['source'] = "Inschrijven Loopbaancoaching";
     $contactParams['birth_date'] = $this->_apiParams['birth_date'];
     return $contactParams;
   }
@@ -167,7 +169,7 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
     $activityParams['is_current_revision'] = 1;
     $activityParams['source_contact_id'] = 1;
     $activityParams['target_contact_id'] = $this->_contactId;
-    $activityParams['status_id'] = 2; //completed
+    $activityParams['status_id'] = 1; //scheduled
     return $activityParams;
   }
 
@@ -183,6 +185,7 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
     switch ($count) {
       case 0:
         $createdContact = $contact->create($this->_contactParams);
+        $contact->addToGroup($createdContact['id'], 'ezine_individuals');
         $this->_contactId = $createdContact['id'];
         $addressParams = $this->constructAddressParams();
         if (!empty($addressParams)) {
@@ -214,6 +217,7 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
           'contact_type' => "Individual"
         );
         $foundContact = $contact->getSingleContact($findParams);
+        $contact->addToGroup($foundContact['id'], 'ezine_individuals');
         $this->_contactId = $foundContact['id'];
         return $foundContact;
         break;
@@ -222,6 +226,7 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
           .implode('; ', $this->_contactParams));
         break;
     }
+
   }
 
   /**

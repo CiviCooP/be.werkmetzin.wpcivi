@@ -1,0 +1,18 @@
+{
+  "ezine_individuals": {
+    "name": "ezine_individuals",
+    "title": "E-Zine Individuen",
+    "is_active":1,
+    "is_reserved":0,
+    "group_type":"2",
+    "description":""
+  },
+  "ezine_organizations": {
+    "name": "ezine_organizations",
+    "title": "E-Zine Bedrijven",
+    "is_active":1,
+    "is_reserved":0,
+    "group_type":"2",
+    "description":""
+  }
+}

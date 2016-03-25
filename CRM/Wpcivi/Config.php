@@ -19,6 +19,7 @@ class CRM_Wpcivi_Config {
 
     $settings = civicrm_api3('Setting', 'Getsingle', array());
     $this->resourcesPath = $settings['extensionsDir'].'/be.werkmetzin.wpcivi/resources/';
+    $this->setGroups();
     $this->setOptionGroups();
     $this->setActivityTypes();
     // customData as last one because it might need one of the previous ones (option group, relationship types)
@@ -102,6 +103,25 @@ class CRM_Wpcivi_Config {
       }
       // remove custom fields that are still on install but no longer in config
       CRM_Wpcivi_CustomField::removeUnwantedCustomFields($created['id'], $customGroupData);
+    }
+  }
+
+  /**
+   * Method to create or get groups
+   *
+   * @throws Exception when resource file could not be loaded
+   */
+  protected function setGroups() {
+    $jsonFile = $this->resourcesPath . 'groups.json';
+    if (!file_exists($jsonFile)) {
+      throw new Exception('Could not load groups configuration file for extension in '.__METHOD__
+        .', contact your system administrator!');
+    }
+    $groupJson = file_get_contents($jsonFile);
+    $groups = json_decode($groupJson, true);
+    foreach ($groups as $params) {
+      $group = new CRM_Wpcivi_Group();
+      $group->create($params);
     }
   }
 }

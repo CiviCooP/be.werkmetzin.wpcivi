@@ -46,4 +46,19 @@ class CRM_Wpcivi_Utils {
       }
     }
   }
+
+  /**
+   * Method to retrieve the group id with group name
+   * 
+   * @param $groupName
+   * @return array|bool
+   * @static
+   */
+  public static function getGroupIdWithName($groupName) {
+    try {
+      return civicrm_api3('Group', 'Getvalue', array('name' => (string) $groupName, 'return' => 'id'));
+    } catch (CiviCRM_API3_Exception $ex) {
+      return FALSE;
+    }
+  }
 }

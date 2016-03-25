@@ -72,4 +72,24 @@ class CRM_Wpcivi_Contact {
         .', error from API Contact Getvalue: '.$ex->getMessage()));
     }
   }
+
+  /**
+   * Method to add contact to a civicrm group
+   * 
+   * @param int $contactId
+   * @param string $groupName
+   * @return array|bool
+   */
+  public function addToGroup($contactId, $groupName) {
+    // contactId and groupName have to contain values for this function to do anything sensible
+    if (empty($contactId) || empty($groupName)) {
+      return FALSE;
+    }
+    $groupId = CRM_Wpcivi_Utils::getGroupIdWithName($groupName);
+    try {
+      return civicrm_api3('GroupContact', 'Create', array('contact_id' => $contactId, 'group_id' => $groupId));
+    } catch (CiviCRM_API3_Exception $ex) {
+      return FALSE;
+    }
+  }
 }
