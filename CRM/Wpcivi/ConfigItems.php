@@ -95,25 +95,22 @@ class CRM_Wpcivi_ConfigItems {
    */
   protected function setCustomData() {
     // read all json files from custom_data dir
-    $customDataPath = $this->_resourcesPath.'/custom_data';
+    $customDataPath = $this->_resourcesPath.DIRECTORY_SEPARATOR.'custom_data';
     if (file_exists($customDataPath) && is_dir($customDataPath)) {
-      $cdDir = opendir($this->_resourcesPath.'/custom_data');
-      while (($fileName = readdir($cdDir)) != FALSE) {
-        $extName = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-        if ($extName == 'json') {
-          $customDataJson = file_get_contents($fileName);
-          $customData = json_decode($customDataJson, true);
-          foreach ($customData as $customGroupName => $customGroupData) {
-            $customGroup = new CRM_Wpcivi_CustomGroup();
-            $created = $customGroup->create($customGroupData);
-            foreach ($customGroupData['fields'] as $customFieldName => $customFieldData) {
-              $customFieldData['custom_group_id'] = $created['id'];
-              $customField = new CRM_Wpcivi_CustomField();
-              $customField->create($customFieldData);
-            }
-            // remove custom fields that are still on install but no longer in config
-            CRM_Wpcivi_CustomField::removeUnwantedCustomFields($created['id'], $customGroupData);
+      $jsonFiles = glob($customDataPath.DIRECTORY_SEPARATOR. "*.json");
+      foreach ($jsonFiles as $customDataFile) {
+        $customDataJson = file_get_contents($customDataFile);
+        $customData = json_decode($customDataJson, true);
+        foreach ($customData as $customGroupName => $customGroupData) {
+          $customGroup = new CRM_Wpcivi_CustomGroup();
+          $created = $customGroup->create($customGroupData);
+          foreach ($customGroupData['fields'] as $customFieldName => $customFieldData) {
+            $customFieldData['custom_group_id'] = $created['id'];
+            $customField = new CRM_Wpcivi_CustomField();
+            $customField->create($customFieldData);
           }
+          // remove custom fields that are still on install but no longer in config
+          CRM_Wpcivi_CustomField::removeUnwantedCustomFields($created['id'], $customGroupData);
         }
       }
     }
