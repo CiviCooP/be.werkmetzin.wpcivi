@@ -4,5 +4,11 @@
     "label": "Formulier Individuele Loopbaancoaching",
     "description":"Gegevens van formulier Individuele Loopbaancoaching van website",
     "is_active": 1
+  },
+  "contact_organization":{
+    "name": "contact_organization",
+    "label": "Contactvraag Bedrijven",
+    "description":"Gegevens van formulier Contactvraag Bedrijven van website",
+    "is_active": 1
   }
 }

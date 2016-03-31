@@ -29,4 +29,19 @@ class CRM_Wpcivi_Phone {
         .$ex->getMessage());
     }
   }
+
+  /**
+   * Method to count phones already existing
+   *
+   * @param $params
+   * @return array
+   * @throws Exception when error from API
+   */
+  public function count($params) {
+    try {
+      return civicrm_api3('Phone', 'Getcount', $params);
+    } catch (CiviCRM_API3_Exception $ex) {
+      throw new Exception(ts("Error when trying to execute API Phone Getcount in ".__METHOD__.", error from API :".$ex->getMessage()));
+    }
+  }
 }
