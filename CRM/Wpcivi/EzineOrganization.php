@@ -16,7 +16,7 @@ class CRM_Wpcivi_EzineOrganization extends CRM_Wpcivi_ApiHandler {
   private $_ezineGroupId = NULL;
 
   /**
-   * Method to process the params from the api into contact and activity
+   * Method to process the params from the api into contact, organization and relationship
    */
   public function processParams() {
     $this->initialize();
