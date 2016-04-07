@@ -61,4 +61,27 @@ class CRM_Wpcivi_Utils {
       return FALSE;
     }
   }
+
+  /**
+   * Method to set the gender based on prefix
+   *
+   * @param string $prefix
+   * @return int
+   * @static
+   */
+  public static function constructGenderId($prefix) {
+    $prefix = strtolower($prefix);
+    switch ($prefix) {
+      case "mevrouw":
+        return 1;
+        break;
+      case "mijnheer":
+        return 2;
+        break;
+      default:
+        return 3;
+        break;
+    }
+  }
+
 }

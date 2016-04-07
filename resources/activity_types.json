@@ -1,7 +1,7 @@
 {
   "form_ind_job_coaching":{
     "name": "form_ind_job_coaching",
-    "label": "Formulier Individuele Loopbaancoaching",
+    "label": "Aanmelding Inschrijving",
     "description":"Gegevens van formulier Individuele Loopbaancoaching van website",
     "is_active": 1
   },

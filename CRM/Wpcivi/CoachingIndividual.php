@@ -129,31 +129,12 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
     }
     $contactParams['contact_type'] = "Individual";
     $contactParams['contact_sub_type'] = "Klant";
-    $contactParams['gender_id'] = $this->constructGenderId();
+    $contactParams['gender_id'] = CRM_Wpcivi_Utils::constructGenderId($this->_apiParams['prefix']);
     $contactParams['first_name'] = $this->_apiParams['first_name'];
     $contactParams['last_name'] = $this->_apiParams['last_name'];
     $contactParams['source'] = "Inschrijven Loopbaancoaching";
     $contactParams['birth_date'] = $this->_apiParams['birth_date'];
     return $contactParams;
-  }
-
-  /**
-   * Method to set the gender based on prefix
-   *
-   * @return int
-   */
-  private function constructGenderId() {
-    switch ($this->_apiParams['prefix']) {
-      case "Mevrouw":
-        return 1;
-      break;
-      case "Mijnheer":
-        return 2;
-      break;
-      default:
-        return 3;
-      break;
-    }
   }
 
   /**
@@ -163,7 +144,7 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
    */
   private function constructActivityParams() {
     $activityParams['activity_type_id'] = $this->_activityType['value'];
-    $activityParams['subject'] = "Formulier Individuele Loopbaancoaching";
+    $activityParams['subject'] = "Inschrijven Loopbaancoaching";
     $activityParams['activity_date_time'] = date('Ymd H:i:s');
     $activityParams['location'] = "Wordpress form";
     $activityParams['is_current_revision'] = 1;
