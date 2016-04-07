@@ -264,6 +264,7 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
     }
     return $customFields;
   }
+  
   /**
    * Method to create activity
    */

@@ -13,6 +13,7 @@ class CRM_Wpcivi_ContactOrganization extends CRM_Wpcivi_ApiHandler {
   private $_individualParams = array();
   private $_activityParams = array();
   private $_individualId = NULL;
+  private $_organizationId = NULL;
   private $_activityType = array();
   private $_employeeRelationshipTypeId = NULL;
 
@@ -39,7 +40,7 @@ class CRM_Wpcivi_ContactOrganization extends CRM_Wpcivi_ApiHandler {
     $this->_activityType = $activityType->getWithNameAndOptionGroupId('contact_organization',
       $activityType->getOptionGroupId());
     try {
-      $this->_employeeRelationshipTypeId = civicrm_api3('RelationshipType', 'Getsingle', array('name_a_b' => 'Employee of'));
+      $this->_employeeRelationshipTypeId = civicrm_api3('RelationshipType', 'Getvalue', array('name_a_b' => 'Employee of', 'return' => 'id'));
     } catch (CiviCRM_API3_Exception $ex) {}
   }
 
@@ -51,15 +52,16 @@ class CRM_Wpcivi_ContactOrganization extends CRM_Wpcivi_ApiHandler {
    */
   private function constructIndividualParams() {
     $result = array();
-    $mandatoryKeys = array('Voornaam', 'Achternaam');
+    $mandatoryKeys = array('voornaam', 'achternaam');
     foreach ($mandatoryKeys as $mandatoryKey) {
       if (!array_key_exists($mandatoryKey, $this->_apiParams)) {
         throw new Exception(ts('Mandatory param '.$mandatoryKey.' not found in parameters list passed into ').__CLASS__);
       }
     }
     $result['contact_type'] = "Individual";
-    $result['first_name'] = $this->_apiParams['Voornaam'];
-    $result['last_name'] = $this->_apiParams['Achternaam'];
+    $result['first_name'] = $this->_apiParams['voornaam'];
+    $result['last_name'] = $this->_apiParams['achternaam'];
+    $result['gender_id'] = CRM_Wpcivi_Utils::constructGenderId($this->_apiParams['prefix']);
     return $result;
   }
 
@@ -76,7 +78,7 @@ class CRM_Wpcivi_ContactOrganization extends CRM_Wpcivi_ApiHandler {
     $result['location'] = "Wordpress form";
     $result['is_current_revision'] = 1;
     $result['source_contact_id'] = 1;
-    $result['target_contact_id'] = $this->_individualId;
+    $result['target_contact_id'] = array($this->_individualId, $this->_organizationId);
     $result['status_id'] = 1; //scheduled
     return $result;
   }
@@ -89,31 +91,29 @@ class CRM_Wpcivi_ContactOrganization extends CRM_Wpcivi_ApiHandler {
    */
   private function processIndividual() {
     // if necessary create new organization
-    $individualParams = $this->constructIndividualParams();
     $individual = new CRM_Wpcivi_Contact();
     $jobTitle = NULL;
-    if (isset($this->_apiParams['Functie'])) {
-      $jobTitle = trim($this->_apiParams['Functie']);
+    if (isset($this->_apiParams['functie'])) {
+      $jobTitle = trim($this->_apiParams['functie']);
     }
-    $found = $individual->count($individualParams);
+    $found = $individual->count($this->_individualParams);
     switch ($found) {
       case 0:
-        $individualParams['source'] = 'Contactvraag Bedrijven';
+        $this->_individualParams['source'] = 'Contactvraag Bedrijven';
         if (!empty($jobTitle)) {
           $individualParams['job_title'] = $jobTitle;
         }
-        $created = $individual->create($individualParams);
-        $result = $created['values'];
+        $created = $individual->create($this->_individualParams);
+        $result = $created['values'][$created['id']];
         break;
       case 1:
         // retrieve individual
-        $found = $individual->getSingleContact($individualParams);
+        $result = $individual->getSingleContact($this->_individualParams);
         // update job title if passed
         if (!empty($jobTitle)) {
-          $individual->create(array('id' => $found['id'], 'job_tile' => $jobTitle));
-          $found['job_title'] = $jobTitle;
+          $individual->create(array('id' => $result['id'], 'job_title' => $jobTitle));
+          $result['job_title'] = $jobTitle;
         }
-        $result = $found;
         break;
       default:
         throw new Exception('Found more than one individuals in '.__METHOD__.", 
@@ -123,34 +123,35 @@ class CRM_Wpcivi_ContactOrganization extends CRM_Wpcivi_ApiHandler {
     $this->_individualId = $result['id'];
     // add email if not exists yet
     $this->processEmail();
-    // add phone if not exists yet
-    $this->processPhone();
     // add organization + relation between individual and organization if not exists yet
     $this->processOrganization();
+    // add phones if not exists yet (after org because phone has to be added to org too!)
+    $this->processPhone();
   }
 
   /**
    * Method to create organization if it does not exist yet, and set relation between individual and organization
    */
   private function processOrganization() {
-    if (isset($this->_apiParams['Organisatie']) && !empty(trim($this->_apiParams['Organisatie']))) {
+    if (isset($this->_apiParams['organisaties']) && !empty(trim($this->_apiParams['organisaties']))) {
       $organizationParams = array(
-        'organization_name' => trim($this->_apiParams['Organisatie']),
+        'organization_name' => trim($this->_apiParams['organisaties']),
         'contact_type' => 'Organization'
-        );
+      );
       $organization = new CRM_Wpcivi_Contact();
       if ($organization->count($organizationParams) == 0) {
+        $organizationParams['source'] = 'Contactvraag Bedrijven';
         $created = $organization->create($organizationParams);
-        $organizationId = $created['values']['id'];
+        $this->_organizationId = $created['id'];
       } else {
         $found = $organization->getSingleContact($organizationParams);
-        $organizationId = $found['id'];
+        $this->_organizationId = $found['id'];
       }
       if (!empty($this->_employeeRelationshipTypeId)) {
         $relationship = new CRM_Wpcivi_Relationship();
         $relationshipParams = array(
           'contact_id_a' => $this->_individualId,
-          'contact_id_b' => $organizationId,
+          'contact_id_b' => $this->_organizationId,
           'relationship_type_id' => $this->_employeeRelationshipTypeId
         );
         if ($relationship->count($relationshipParams) == 0) {
@@ -170,24 +171,29 @@ class CRM_Wpcivi_ContactOrganization extends CRM_Wpcivi_ApiHandler {
 
   /**
    * Method to process the phone, only set is_primary = 1 if no primary phone for contact
+   * phone needs to be added to both individual and organization
    */
   private function processPhone() {
-    $phoneParams = array();
-    if (isset($this->_apiParams['Telefoonnummer']) && !empty($this->_apiParams['Telefoonnummer'])) {
+    if (isset($this->_apiParams['telefoonnummer']) && !empty($this->_apiParams['telefoonnummer'])) {
+      $contactIds = array($this->_individualId, $this->_organizationId);
+      foreach ($contactIds as $contactId) {
+      $phoneParams = array();
       $phoneParams['location_type'] = "Werk";
       $phoneParams['phone_type'] = "Phone";
-      $phoneParams['phone'] = $this->_apiParams['Telefoonnummer'];
-      $phoneParams['contact_id'] = $this->_individualId;
-    }
-    $phone = new CRM_Wpcivi_Phone();
-    if ($phone->count($phoneParams) == 0) {
-      $primaryParams = array('contact_id' => $this->_individualId, 'is_primary' => 1);
-      if ($phone->count($primaryParams) == 0) {
-        $phoneParams['is_primary'] = 1;
-      } else {
-        $phoneParams['is_primary'] = 0;
+      $phoneParams['phone'] = $this->_apiParams['telefoonnummer'];
+      $phoneParams['contact_id'] = $contactId;
+      $phone = new CRM_Wpcivi_Phone();
+      if ($phone->count($phoneParams) == 0) {
+        $primaryParams = array('contact_id' => $contactId, 'is_primary' => 1);
+        if ($phone->count($primaryParams) == 0) {
+          $phoneParams['is_primary'] = 1;
+        } else {
+          $phoneParams['is_primary'] = 0;
+        }
+        $phone->create($phoneParams);
+        }
+        unset($phone);
       }
-      $phone->create($phoneParams);
     }
   }
 
@@ -218,6 +224,37 @@ class CRM_Wpcivi_ContactOrganization extends CRM_Wpcivi_ApiHandler {
    */
   private function processActivity() {
     $activity = new CRM_Wpcivi_Activity();
-    $activity->create($this->_activityParams);
+    $created = $activity->create($this->_activityParams);
+    // now add custom data
+    $customData = $this->constructActivityCustomData($created['id']);
+    if (!empty($customData)) {
+      CRM_Wpcivi_Utils::addCustomData($customData);
+    }
+  }
+
+  /**
+   * Method to add activity custom data
+   * @param $activityId
+   * @return array
+   */
+  private function constructActivityCustomData($activityId) {
+    $customData = array();
+    if (!empty($activityId)) {
+      $customData['entity_id'] = $activityId;
+      $customGroup = new CRM_Wpcivi_CustomGroup();
+      $customData['table_name'] = $customGroup->getTableNameWithName('contact_organization');
+      $customData['query_action'] = "insert";
+      $customData['custom_fields'] = $this->constructActivityCustomFields();
+    }
+    return $customData;
+  }
+
+  /**
+   * Method to construct params for custom fields activity
+   * @return array
+   */
+  private function constructActivityCustomFields() {
+    $customFields['message_organization'] = array('value' => $this->_apiParams['bericht'], 'type' => 'String');
+    return $customFields;
   }
 }

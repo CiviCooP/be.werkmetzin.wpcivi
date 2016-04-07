@@ -1,0 +1,37 @@
+{
+  "contact_organization": {
+    "name": "contact_organization",
+    "title": "Formulier Contactbericht Bedrijven",
+    "extends": "Activity",
+    "extends_entity_column_value": "contact_organization",
+    "style": "Inline",
+    "is_active": 1,
+    "is_reserved": 0,
+    "collapse_display": 0,
+    "table_name": "civicrm_value_contact_organization",
+    "fields": {
+      "message_organization": {
+        "name": "message_organization",
+        "label": "Contactvraag bedrijf",
+        "data_type": "Memo",
+        "html_type": "TextArea",
+        "is_searchable": 0,
+        "is_view": 0,
+        "column_name": "message_organization",
+        "weight": -100,
+        "is_active": 1
+      },
+      "answer_wmz": {
+        "name": "answer_wmz",
+        "label": "Antwoord Werk met Zin",
+        "data_type": "Memo",
+        "html_type": "TextArea",
+        "is_searchable": 0,
+        "is_view": 0,
+        "column_name": "answer_wmz",
+        "weight": -90,
+        "is_active": 1
+      }
+    }
+  }
+}

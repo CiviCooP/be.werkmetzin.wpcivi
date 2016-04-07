@@ -125,7 +125,7 @@ class CRM_Wpcivi_ConfigItems {
    * @throws Exception when resource file could not be loaded
    */
   protected function setGroups() {
-    $jsonFile = $this->resourcesPath . 'groups.json';
+    $jsonFile = $this->_resourcesPath . 'groups.json';
     if (!file_exists($jsonFile)) {
       throw new Exception('Could not load groups configuration file for extension in '.__METHOD__
         .', contact your system administrator!');
