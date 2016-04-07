@@ -46,16 +46,16 @@ class CRM_Wpcivi_EzineOrganization extends CRM_Wpcivi_ApiHandler {
    */
   private function constructIndividualParams() {
     $result = array();
-    $mandatoryKeys = array('Voornaam', 'Achternaam');
+    $mandatoryKeys = array('voornaam', 'achternaam');
     foreach ($mandatoryKeys as $mandatoryKey) {
       if (!array_key_exists($mandatoryKey, $this->_apiParams)) {
         throw new Exception(ts('Mandatory param '.$mandatoryKey.' not found in parameters list passed into ').__CLASS__);
       }
     }
     $result['contact_type'] = "Individual";
-    $result['first_name'] = $this->_apiParams['Voornaam'];
-    $result['last_name'] = $this->_apiParams['Achternaam'];
-    $result['gender_id'] = CRM_Wpcivi_Utils::constructGenderId($this->_apiParams['Aanhef']);
+    $result['first_name'] = $this->_apiParams['voornaam'];
+    $result['last_name'] = $this->_apiParams['achternaam'];
+    $result['gender_id'] = CRM_Wpcivi_Utils::constructGenderId($this->_apiParams['prefix']);
     return $result;
   }
 
@@ -69,8 +69,8 @@ class CRM_Wpcivi_EzineOrganization extends CRM_Wpcivi_ApiHandler {
     // if necessary create new organization
     $individual = new CRM_Wpcivi_Contact();
     $jobTitle = NULL;
-    if (isset($this->_apiParams['Functie'])) {
-      $jobTitle = trim($this->_apiParams['Functie']);
+    if (isset($this->_apiParams['functie'])) {
+      $jobTitle = trim($this->_apiParams['functie']);
     }
     $found = $individual->count($this->_individualParams);
     switch ($found) {
@@ -110,9 +110,9 @@ class CRM_Wpcivi_EzineOrganization extends CRM_Wpcivi_ApiHandler {
    * Method to create organization if it does not exist yet, and set relation between individual and organization
    */
   private function processOrganization() {
-    if (isset($this->_apiParams['Organisatie']) && !empty(trim($this->_apiParams['Organisatie']))) {
+    if (isset($this->_apiParams['organisatie']) && !empty(trim($this->_apiParams['organisatie']))) {
       $organizationParams = array(
-        'organization_name' => trim($this->_apiParams['Organisatie']),
+        'organization_name' => trim($this->_apiParams['organisatie']),
         'contact_type' => 'Organization'
         );
       $organization = new CRM_Wpcivi_Contact();
@@ -150,9 +150,9 @@ class CRM_Wpcivi_EzineOrganization extends CRM_Wpcivi_ApiHandler {
    */
   private function processEmail() {
     $emailParams = array();
-    if (isset($this->_apiParams['Email']) && !empty($this->_apiParams['Email'])) {
+    if (isset($this->_apiParams['email']) && !empty($this->_apiParams['email'])) {
       $emailParams['location_type'] = "Werk";
-      $emailParams['email'] = $this->_apiParams['Email'];
+      $emailParams['email'] = $this->_apiParams['email'];
       $emailParams['contact_id'] = $this->_individualId;
     }
     $email = new CRM_Wpcivi_Email();

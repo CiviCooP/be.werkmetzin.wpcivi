@@ -42,15 +42,15 @@ class CRM_Wpcivi_EzineIndividual extends CRM_Wpcivi_ApiHandler {
    */
   private function constructIndividualParams() {
     $result = array();
-    $mandatoryKeys = array('Voornaam', 'Achternaam');
+    $mandatoryKeys = array('voornaam', 'achternaam');
     foreach ($mandatoryKeys as $mandatoryKey) {
       if (!array_key_exists($mandatoryKey, $this->_apiParams)) {
         throw new Exception(ts('Mandatory param '.$mandatoryKey.' not found in parameters list passed into ').__CLASS__);
       }
     }
     $result['contact_type'] = "Individual";
-    $result['first_name'] = $this->_apiParams['Voornaam'];
-    $result['last_name'] = $this->_apiParams['Achternaam'];
+    $result['first_name'] = $this->_apiParams['voornaam'];
+    $result['last_name'] = $this->_apiParams['achternaam'];
     return $result;
   }
 
@@ -90,9 +90,9 @@ class CRM_Wpcivi_EzineIndividual extends CRM_Wpcivi_ApiHandler {
    */
   private function processEmail() {
     $emailParams = array();
-    if (isset($this->_apiParams['Email']) && !empty($this->_apiParams['Email'])) {
+    if (isset($this->_apiParams['email']) && !empty($this->_apiParams['email'])) {
       $emailParams['location_type'] = "Thuis";
-      $emailParams['email'] = $this->_apiParams['Email'];
+      $emailParams['email'] = $this->_apiParams['email'];
       $emailParams['contact_id'] = $this->_individualId;
     }
     $email = new CRM_Wpcivi_Email();
