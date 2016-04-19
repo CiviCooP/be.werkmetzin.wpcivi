@@ -113,6 +113,7 @@ class CRM_Wpcivi_EzineOrganization extends CRM_Wpcivi_ApiHandler {
     if (isset($this->_apiParams['organisatie']) && !empty(trim($this->_apiParams['organisatie']))) {
       $organizationParams = array(
         'organization_name' => trim($this->_apiParams['organisatie']),
+        'source' => 'E-Zine Bedrijven',
         'contact_type' => 'Organization'
         );
       $organization = new CRM_Wpcivi_Contact();
@@ -151,7 +152,7 @@ class CRM_Wpcivi_EzineOrganization extends CRM_Wpcivi_ApiHandler {
   private function processEmail() {
     $emailParams = array();
     if (isset($this->_apiParams['email']) && !empty($this->_apiParams['email'])) {
-      $emailParams['location_type'] = "Werk";
+      $emailParams['location_type_id'] = "Werk";
       $emailParams['email'] = $this->_apiParams['email'];
       $emailParams['contact_id'] = $this->_individualId;
     }
