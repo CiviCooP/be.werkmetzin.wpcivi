@@ -62,6 +62,7 @@ class CRM_Wpcivi_ContactOrganization extends CRM_Wpcivi_ApiHandler {
     $result['first_name'] = $this->_apiParams['voornaam'];
     $result['last_name'] = $this->_apiParams['achternaam'];
     $result['gender_id'] = CRM_Wpcivi_Utils::constructGenderId($this->_apiParams['prefix']);
+    $result['prefix_id'] = CRM_Wpcivi_Utils::constructPrefixId($this->_activityParams['prefix']);
     return $result;
   }
 
@@ -178,7 +179,7 @@ class CRM_Wpcivi_ContactOrganization extends CRM_Wpcivi_ApiHandler {
       $contactIds = array($this->_individualId, $this->_organizationId);
       foreach ($contactIds as $contactId) {
       $phoneParams = array();
-      $phoneParams['location_type'] = "Werk";
+      $phoneParams['location_type_id'] = "Werk";
       $phoneParams['phone_type'] = "Phone";
       $phoneParams['phone'] = $this->_apiParams['telefoonnummer'];
       $phoneParams['contact_id'] = $contactId;
@@ -203,7 +204,7 @@ class CRM_Wpcivi_ContactOrganization extends CRM_Wpcivi_ApiHandler {
   private function processEmail() {
     $emailParams = array();
     if (isset($this->_apiParams['email']) && !empty($this->_apiParams['email'])) {
-      $emailParams['location_type'] = "Werk";
+      $emailParams['location_type_id'] = "Werk";
       $emailParams['email'] = $this->_apiParams['email'];
       $emailParams['contact_id'] = $this->_individualId;
     }

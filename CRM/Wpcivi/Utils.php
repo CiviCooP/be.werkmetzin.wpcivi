@@ -84,4 +84,26 @@ class CRM_Wpcivi_Utils {
     }
   }
 
+  /**
+   * Method to set the prefix id
+   * 
+   * @param $prefix
+   * @return string
+   */
+  public static function constructPrefixId($prefix) {
+    $result = NULL;
+    $prefixToBeChecked = strtolower($prefix);
+    try {
+      $optionValues = civicrm_api3('OptionValue', 'Get',
+        array('option_group_id' => 'individual_prefix', 'is_active' => 1));
+      foreach ($optionValues['values'] as $optionValue) {
+        $foundPrefix = strtolower($optionValue['label']);
+        if ($prefixToBeChecked == $foundPrefix) {
+          $result = $optionValue['value'];
+        }
+      }
+    } catch (CiviCRM_API3_Exception $ex) {}
+    return $result;
+  }
+
 }

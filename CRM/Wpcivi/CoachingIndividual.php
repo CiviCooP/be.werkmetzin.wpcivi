@@ -40,7 +40,7 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
   private function constructEmailParams() {
     $emailParams = array();
     if (isset($this->_apiParams['email']) && !empty($this->_apiParams['email'])) {
-      $emailParams['location_type'] = "Thuis";
+      $emailParams['location_type_id'] = "Thuis";
       $emailParams['email'] = $this->_apiParams['email'];
       $emailParams['is_primary'] = 1;
       $emailParams['contact_id'] = $this->_contactId;
@@ -56,7 +56,7 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
   private function constructMobileParams() {
     $mobileParams = array();
     if (isset($this->_apiParams['mobile']) && !empty($this->_apiParams['mobile'])) {
-      $mobileParams['location_type'] = "Thuis";
+      $mobileParams['location_type_id'] = "Thuis";
       $mobileParams['phone_type'] = "Mobile";
       $mobileParams['phone'] = $this->_apiParams['mobile'];
       $mobileParams['is_primary'] = 0;
@@ -130,6 +130,7 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
     $contactParams['contact_type'] = "Individual";
     $contactParams['contact_sub_type'] = "Klant";
     $contactParams['gender_id'] = CRM_Wpcivi_Utils::constructGenderId($this->_apiParams['prefix']);
+    $contactParams['prefix_id'] = CRM_Wpcivi_Utils::constructPrefixId($this->_apiParams['prefix']);
     $contactParams['first_name'] = $this->_apiParams['first_name'];
     $contactParams['last_name'] = $this->_apiParams['last_name'];
     $contactParams['source'] = "Inschrijven Loopbaancoaching";

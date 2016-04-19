@@ -56,6 +56,7 @@ class CRM_Wpcivi_EzineOrganization extends CRM_Wpcivi_ApiHandler {
     $result['first_name'] = $this->_apiParams['voornaam'];
     $result['last_name'] = $this->_apiParams['achternaam'];
     $result['gender_id'] = CRM_Wpcivi_Utils::constructGenderId($this->_apiParams['prefix']);
+    $result['prefix_id'] = CRM_Wpcivi_Utils::constructPrefixId($this->_apiParams['prefix']);
     return $result;
   }
 

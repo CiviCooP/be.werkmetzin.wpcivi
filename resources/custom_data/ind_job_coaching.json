@@ -160,7 +160,7 @@
       },
       "intro_meeting": {
         "name": "intro_meeting",
-        "label": "Vraag een kennismakingsgesprek?",
+        "label": "Vraagt een kennismakingsgesprek",
         "data_type": "Boolean",
         "html_type": "Radio",
         "is_searchable": 1,
@@ -171,7 +171,7 @@
       },
       "cheques_order": {
         "name": "cheques_order",
-        "label": "Heeft cheques reeds besteld?",
+        "label": "Heeft Cheques reeds besteld",
         "data_type": "Boolean",
         "html_type": "Radio",
         "is_searchable": 1,
