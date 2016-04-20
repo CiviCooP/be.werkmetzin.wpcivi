@@ -15,7 +15,6 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
   private $_contactId = NULL;
   private $_activityType = array();
   private $_yesValues = array();
-  private $_noValues = array();
 
   /**
    * Method to process the params from the api into contact and activity
@@ -112,6 +111,11 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
     $this->_activityType = $activityType->getWithNameAndOptionGroupId('form_ind_job_coaching',
       $activityType->getOptionGroupId());
     $this->_yesValues = array('ja', 'Ja', 'J', 'j');
+    // hack because the WP form has a field called statuut-vrij and I do not want minus signs in field names
+    if (isset($this->_apiParams['statuut-vrij'])) {
+      $this->_apiParams['other_employment'] = $this->_apiParams['statuut-vrij'];
+      unset($this->_apiParams['statuut-vrij']);
+    }
   }
 
   /**
@@ -233,7 +237,7 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
    * @return array
    */
   private function constructActivityCustomFields() {
-    $radioColumns = array('previous_job_coaching', 'previous_past');
+    $radioColumns = array('previous_job_coaching', 'previous_job_coaching_timing');
     $customFields = array();
     // array holding custom field column as key and params key as value
     $possibleCustomFields = array(
@@ -246,10 +250,10 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
       'employment_status' => array('name' => 'employment_status', 'type' => 'String'),
       'other_employment' => array('name' => 'other_employment', 'type' => 'String'),
       'previous_job_coaching' => array('name' => 'previous_job_coaching', 'type' => 'Integer'),
-      'previous_past' => array('name' => 'previous_past', 'type' => 'Integer'),
-      'previous_date' => array('name' => 'previous_date', 'type' => 'Date'),
+      'previous_job_coaching_timing' => array('name' => 'previous_job_coaching_timing', 'type' => 'Integer'),
+      'last_coaching' => array('name' => 'last_coaching', 'type' => 'String'),
       'found_us_how' => array('name' => 'found_us_how', 'type' => 'String'),
-      'message' => array('name' => 'remarks', 'type' => 'String')
+      'message' => array('name' => 'message', 'type' => 'String')
     );
     foreach ($possibleCustomFields as $column => $possibleParams) {
       if (in_array($column, $radioColumns)) {

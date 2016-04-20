@@ -91,7 +91,7 @@ class CRM_Wpcivi_EzineIndividual extends CRM_Wpcivi_ApiHandler {
   private function processEmail() {
     $emailParams = array();
     if (isset($this->_apiParams['email']) && !empty($this->_apiParams['email'])) {
-      $emailParams['location_type'] = "Thuis";
+      $emailParams['location_type_id'] = "Thuis";
       $emailParams['email'] = $this->_apiParams['email'];
       $emailParams['contact_id'] = $this->_individualId;
     }

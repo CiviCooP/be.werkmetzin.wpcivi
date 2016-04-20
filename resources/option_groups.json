@@ -25,8 +25,8 @@
       },
       "other":{
         "name":"other",
-        "value":"Ander",
-        "label":"Ander",
+        "value":"Andere",
+        "label":"Andere",
         "is_active":1
       }
     }
