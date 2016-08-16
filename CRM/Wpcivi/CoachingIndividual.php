@@ -56,7 +56,7 @@ class CRM_Wpcivi_CoachingIndividual extends CRM_Wpcivi_ApiHandler {
     $mobileParams = array();
     if (isset($this->_apiParams['mobile']) && !empty($this->_apiParams['mobile'])) {
       $mobileParams['location_type_id'] = "Thuis";
-      $mobileParams['phone_type_id'] = "Mobiel";
+      $mobileParams['phone_type_id'] = "Mobile";
       $mobileParams['phone'] = $this->_apiParams['mobile'];
       $mobileParams['is_primary'] = 0;
       $mobileParams['contact_id'] = $this->_contactId;

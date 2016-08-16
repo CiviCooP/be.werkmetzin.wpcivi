@@ -65,7 +65,7 @@
   },
   "location_preference":{
     "name":"location_preference",
-    "title":"Lokatievoorkeu",
+    "title":"Lokatievoorkeur",
     "is_active":"1",
     "is_reserved":"0",
     "option_values": {
@@ -85,6 +85,12 @@
         "name": "antwerpen",
         "value": "Antwerpen",
         "label": "Antwerpen",
+        "is_active": 1
+      },
+      "sint_job": {
+        "name": "sint_job_in_goor",
+        "value": "Sint Job in Goor",
+        "label": "Sint Job in Goor",
         "is_active": 1
       },
       "berchem": {
