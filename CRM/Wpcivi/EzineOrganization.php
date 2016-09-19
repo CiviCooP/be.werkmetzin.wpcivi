@@ -76,7 +76,7 @@ class CRM_Wpcivi_EzineOrganization extends CRM_Wpcivi_ApiHandler {
     $found = $individual->count($this->_individualParams);
     switch ($found) {
       case 0:
-        $this->_individualParams['source'] = 'E-Zine Bedrijven';
+        $this->_individualParams['source'] = 'Nieuwsbrief Bedrijven';
         if (!empty($jobTitle)) {
           $this->_individualParams['job_title'] = $jobTitle;
         }
@@ -114,7 +114,7 @@ class CRM_Wpcivi_EzineOrganization extends CRM_Wpcivi_ApiHandler {
     if (isset($this->_apiParams['organisatie']) && !empty(trim($this->_apiParams['organisatie']))) {
       $organizationParams = array(
         'organization_name' => trim($this->_apiParams['organisatie']),
-        'source' => 'E-Zine Bedrijven',
+        'source' => 'Nieuwsbrief Bedrijven',
         'contact_type' => 'Organization'
         );
       $organization = new CRM_Wpcivi_Contact();
@@ -125,6 +125,14 @@ class CRM_Wpcivi_EzineOrganization extends CRM_Wpcivi_ApiHandler {
         $found = $organization->getSingleContact($organizationParams);
         $organizationId = $found['id'];
       }
+      // update employee id in individual record
+      try {
+        $result = civicrm_api3('Contact', 'create', array(
+          'id' => $this->_individualId,
+          'employer_id' => $organizationId
+        ));
+
+      } catch (CiviCRM_API3_Exception $ex) {}
       if (!empty($this->_employeeRelationshipTypeId)) {
         $relationship = new CRM_Wpcivi_Relationship();
         $relationshipParams = array(
