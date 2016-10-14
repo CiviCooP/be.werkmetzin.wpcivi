@@ -92,12 +92,12 @@ class CRM_Wpcivi_Utils {
    */
   public static function constructPrefixId($prefix) {
     $result = NULL;
-    $prefixToBeChecked = strtolower($prefix);
-    try {
+    $prefixToBeChecked = trim(strtolower($prefix));
+   try {
       $optionValues = civicrm_api3('OptionValue', 'Get',
         array('option_group_id' => 'individual_prefix', 'is_active' => 1));
       foreach ($optionValues['values'] as $optionValue) {
-        $foundPrefix = strtolower($optionValue['label']);
+        $foundPrefix = trim(strtolower($optionValue['label']));
         if ($prefixToBeChecked == $foundPrefix) {
           $result = $optionValue['value'];
         }
@@ -105,5 +105,4 @@ class CRM_Wpcivi_Utils {
     } catch (CiviCRM_API3_Exception $ex) {}
     return $result;
   }
-
 }

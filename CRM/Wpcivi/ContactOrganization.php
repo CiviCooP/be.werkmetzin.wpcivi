@@ -16,13 +16,19 @@ class CRM_Wpcivi_ContactOrganization extends CRM_Wpcivi_ApiHandler {
   private $_organizationId = NULL;
   private $_activityType = array();
   private $_employeeRelationshipTypeId = NULL;
+  private $_logger = NULL;
 
   /**
    * Method to process the params from the api into contact and activity
    */
   public function processParams() {
+    $logMessages = array();
+    foreach ($this->_apiParams as $apiKey => $apiValue) {
+      $logMessages[] = $apiKey.' : '.$apiValue;
+    }
     $this->initialize();
     $this->_individualParams = $this->constructIndividualParams();
+    $this->_logger->logMessage('Incoming', 'Incoming api params : '.implode(';', $logMessages));
     if (!empty($this->_individualParams)) {
       $this->processIndividual();
     }
@@ -36,6 +42,7 @@ class CRM_Wpcivi_ContactOrganization extends CRM_Wpcivi_ApiHandler {
    * Method to set the basic settings for this type of wordpress form
    */
   private function initialize() {
+    $this->_logger = new CRM_Wpcivi_Logger('ContactOrganization');
     $activityType = new CRM_Wpcivi_ActivityType();
     $this->_activityType = $activityType->getWithNameAndOptionGroupId('contact_organization',
       $activityType->getOptionGroupId());
@@ -62,7 +69,7 @@ class CRM_Wpcivi_ContactOrganization extends CRM_Wpcivi_ApiHandler {
     $result['first_name'] = $this->_apiParams['voornaam'];
     $result['last_name'] = $this->_apiParams['achternaam'];
     $result['gender_id'] = CRM_Wpcivi_Utils::constructGenderId($this->_apiParams['prefix']);
-    $result['prefix_id'] = CRM_Wpcivi_Utils::constructPrefixId($this->_activityParams['prefix']);
+    $result['prefix_id'] = CRM_Wpcivi_Utils::constructPrefixId($this->_apiParams['prefix']);
     return $result;
   }
 
@@ -158,6 +165,13 @@ class CRM_Wpcivi_ContactOrganization extends CRM_Wpcivi_ApiHandler {
         if ($relationship->count($relationshipParams) == 0) {
           $relationshipParams['is_active'] = 1;
           $relationship->create($relationshipParams);
+          // update employee id in individual record
+          try {
+            civicrm_api3('Contact', 'create', array(
+              'id' => $this->_individualId,
+              'employer_id' => $this->_organizationId
+            ));
+          } catch (CiviCRM_API3_Exception $ex) {}
         } else {
           $found = $relationship->getSingle($relationshipParams);
           if ($found && $found['is_active'] == 0) {
