@@ -16,6 +16,7 @@ class CRM_Wpcivi_ContactOrganization extends CRM_Wpcivi_ApiHandler {
   private $_organizationId = NULL;
   private $_activityType = array();
   private $_employeeRelationshipTypeId = NULL;
+  private $_ezineGroupId = NULL;
   private $_logger = NULL;
 
   /**
@@ -47,6 +48,7 @@ class CRM_Wpcivi_ContactOrganization extends CRM_Wpcivi_ApiHandler {
     $this->_activityType = $activityType->getWithNameAndOptionGroupId('contact_organization',
       $activityType->getOptionGroupId());
     try {
+      $this->_ezineGroupId = civicrm_api3('Group', 'Getvalue', array('name' => 'ezine_organizations', 'return' => 'id'));
       $this->_employeeRelationshipTypeId = civicrm_api3('RelationshipType', 'Getvalue', array('name_a_b' => 'Employee of', 'return' => 'id'));
     } catch (CiviCRM_API3_Exception $ex) {}
   }
@@ -129,6 +131,8 @@ class CRM_Wpcivi_ContactOrganization extends CRM_Wpcivi_ApiHandler {
         break;
     }
     $this->_individualId = $result['id'];
+    // add contact to group ezine bedrijven
+    civicrm_api3('GroupContact', 'Create', array('group_id' => $this->_ezineGroupId, 'contact_id' => $this->_individualId));
     // add email if not exists yet
     $this->processEmail();
     // add organization + relation between individual and organization if not exists yet
